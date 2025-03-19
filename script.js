@@ -1,4 +1,4 @@
-import CONFIG from "./config";
+// import CONFIG from "./config";
 
 const messageInput = document.querySelector(".message-input");
 const chatBody = document.querySelector(".chat-body");
@@ -8,8 +8,9 @@ const fileUploadWrapper = document.querySelector(".file-upload-wrapper");
 const fileCancelButton = document.querySelector("#file-cancel");
 const chatbotToggler = document.querySelector("#chatbot-toggler");
 const closeChatbot = document.querySelector("#close-chatbot");
+const navbar = document.querySelector(".navbar");
 
-const API_KEY = CONFIG.API_KEY;
+const API_KEY = "";
 
 const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
@@ -36,7 +37,9 @@ const generateBotResponse = async (incomingMessageDiv) => {
   chatHistory.push({
     role: "user",
     parts: [
-      { text: userData.message },
+      {
+        text: `your are a medical assitant who have good skills in identifying the disease with the sympotoms :${userData.message}. The max tokens are only 120 make sure you fit the response there in it. Give plain text without any special characters. If the prompt given is relevat to the medical then you should give the information accordingly or else if a user tries to chat a norml conversation then you should give general responses but dont give any other answers other than medical related and also if any files other than medical related are attached then just tell to give the relavant files and if any relavant files are attached then give the message accordingly`,
+      },
       userData.file.data
         ? {
             inline_data: {
@@ -54,6 +57,10 @@ const generateBotResponse = async (incomingMessageDiv) => {
     },
     body: JSON.stringify({
       contents: chatHistory,
+      generationConfig: {
+        temperature: 0.5,
+        maxOutputTokens: 200,
+      },
     }),
   };
 
@@ -68,7 +75,11 @@ const generateBotResponse = async (incomingMessageDiv) => {
         ?.replace(/\*\*(.*?)\*\*/g, "$1")
         ?.trim() || "";
 
-    messageElement.innerHTML = apiResponseText;
+    const formattedText = apiResponseText
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Convert **bold** text
+      .replace(/\n/g, "<br>• "); // Convert new lines into bullet points
+
+    messageElement.innerHTML = `• ${formattedText}`; // Adds a bullet point at the start
 
     chatHistory.push({
       role: "user",
@@ -217,9 +228,44 @@ document
   .querySelector("#file-upload")
   .addEventListener("click", () => fileInput.click());
 
-chatbotToggler.addEventListener("click", () =>
-  document.body.classList.toggle("show-chatbot")
-);
-closeChatbot.addEventListener("click", () =>
-  document.body.classList.remove("show-chatbot")
-);
+// chatbotToggler.addEventListener("click", () =>
+//   document.body.classList.toggle("show-chatbot")
+// );
+// closeChatbot.addEventListener("click", () =>
+//   document.body.classList.remove("show-chatbot")
+// );
+
+chatbotToggler.addEventListener("click", () => {
+  document.body.classList.toggle("show-chatbot");
+  navbar.classList.toggle("hidden");
+});
+
+closeChatbot.addEventListener("click", () => {
+  document.body.classList.remove("show-chatbot");
+  navbar.classList.remove("hidden");
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const usernameDisplay = document.getElementById("username-display");
+  const logoutBtn = document.getElementById("logout-btn");
+
+  const loggedInUser = localStorage.getItem("loggedInUser");
+  console.log(loggedInUser);
+
+  if (!loggedInUser) {
+    window.location.href = "login.html"; // Redirect to login if not authenticated
+  } else {
+    const userData = JSON.parse(localStorage.getItem(loggedInUser)); // Parse JSON
+    console.log(userData); // Debugging output
+    if (userData && userData.name) {
+      usernameDisplay.textContent = userData.name;
+    } else {
+      console.error("User data is missing or invalid.");
+    }
+  }
+
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "login.html";
+  });
+});

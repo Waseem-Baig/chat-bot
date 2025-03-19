@@ -15,6 +15,144 @@ body {
   background: linear-gradient(#eeeeef, #c8c7ff);
 }
 
+/* General Styles
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} */
+
+/* Navbar styles */
+.navbar {
+  width: 95%;
+  background: linear-gradient(#eeeeef, #c8c7ff);
+  color: black;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 10px; /* Adjusted to give space from the top */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  border-radius: 12px; /* Medium rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#logout-btn {
+  background-color: transparent;
+  color: black;
+  border: 1px solid black;
+  padding: 10px 18px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#logout-btn:hover {
+  background-color: #eeeeef;
+  color: black;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Ensure content doesn't get hidden under fixed navbar */
+/* body {
+  padding-top: 70px;
+} */
+
+/* Auth Container */
+.auth-container {
+  background: white;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 320px;
+  text-align: center;
+}
+
+.auth-container h2 {
+  margin-bottom: 20px;
+}
+
+/* Input Fields */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.input-group input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  outline: none;
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background: #007bff;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.auth-btn:hover {
+  background: #086fdd;
+}
+
+/* Links */
+p {
+  font-size: 14px;
+}
+
+p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
 #chatbot-toggler {
   position: fixed;
   bottom: 30px;
